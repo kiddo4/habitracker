@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/config/theme/dark_mode.dart';
-import 'package:myapp/config/theme/light_mode.dart';
 import 'package:myapp/config/theme/theme_provider.dart';
 import 'package:myapp/pages/home_page.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: ,
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 } 
