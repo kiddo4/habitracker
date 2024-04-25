@@ -15,6 +15,7 @@ class HabitDatabase extends ChangeNotifier {
        directory: dir.path);
   }
 
+  // Save the first launch date of the app in the database
   Future<void> saveFirstLaunchDate() async {
     final exististingSettings = await isar.appSettings.where().findFirst();
     if (exististingSettings == null) {
@@ -27,6 +28,7 @@ class HabitDatabase extends ChangeNotifier {
     
     
   }
+  // Get the first launch date of the app from the database
   Future<DateTime?> getFirstLaunchDate() async {
       final settings = await isar.appSettings.where().findFirst();
       return settings?.firstLaunchDate;
@@ -34,6 +36,7 @@ class HabitDatabase extends ChangeNotifier {
 
   final List<Habit> currentHabits  = [];
 
+  // Add a new habit to the database
   Future<void> addHabit(String habitName) async {
     final newHabit = Habit()..name = habitName;
     await isar.writeTxn(() => isar.habits.put(newHabit)
@@ -41,6 +44,7 @@ class HabitDatabase extends ChangeNotifier {
     readHabits();
   }
 
+  // Read all habits from the database
   Future<void> readHabits() async {
     List<Habit> habits = await isar.habits.where().findAll();
     currentHabits.clear();
@@ -48,6 +52,7 @@ class HabitDatabase extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Update the completion status of a habit
   Future<void> updateHabitCompletion(int id, bool isCompleted) async {
     final habit = await isar.habits.get(id);
     
@@ -81,6 +86,7 @@ class HabitDatabase extends ChangeNotifier {
     
    
   }
+   // Update the name of a habit
    Future<void> updateHabit(int id, String newName) {
       return isar.writeTxn(() async {
         final habit = await isar.habits.get(id);
@@ -93,6 +99,7 @@ class HabitDatabase extends ChangeNotifier {
       readHabits();
     }
 
+    // Delete a habit from the database
     Future<void> deleteHabit(int id) async {
       await isar.writeTxn(() async {
         await isar.habits.delete(id);
