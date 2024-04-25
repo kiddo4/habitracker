@@ -14,6 +14,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void initState() {
+    super.initState();
+    Provider.of<HabitDatabase>(context, listen: false).readHabits();
+  }
 
   final textController = TextEditingController();
   
@@ -69,8 +73,22 @@ class _HomePageState extends State<HomePage> {
         'Add',
         style: TextStyle(color: Colors.black,),
         ),
-      )
+      ),
+      body: _buildHabitList(),
     );
     
+  }
+  Widget _buildHabitList() {
+
+    final habitDatabase = context.watch<HabitDatabase>();
+
+    List<Habit> currentHabits = habitDatabase.currentHabits;
+
+    return ListView.builder(
+      itemCount: currentHabits.length,
+      itemBuilder: (context, length) {
+
+      }
+      );
   }
 }
