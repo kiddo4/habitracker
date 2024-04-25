@@ -73,11 +73,33 @@ class HabitDatabase extends ChangeNotifier {
             date.day == DateTime.now().day
            );
          }
+
+         await isar.habits.put(habit);
         }
       );
+      readHabits();
     }
+    
+   
   }
+   Future<void> updateHabit(int id, String newName) {
+      return isar.writeTxn(() async {
+        final habit = await isar.habits.get(id);
+        if (habit != null) {
+          habit.name = newName;
+          await isar.habits.put(habit);
+        }
 
+      });
+      readHabits();
+    }
+
+    Future<void> deleteHabit(int id) async {
+      await isar.writeTxn(() async {
+        await isar.habits.delete(id);
+      });
+      readHabits();
+    }
     
   
 }
