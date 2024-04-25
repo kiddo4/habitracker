@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/config/theme/theme_provider.dart';
+import 'package:myapp/database/habit_database.dart';
 import 'package:myapp/pages/home_page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await HabitDatabase.init();
+
+  await HabitDatabase().saveFirstLaunchDate();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
